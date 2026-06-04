@@ -4,10 +4,14 @@ import { Fragment } from 'react';
 import { Link } from 'react-router'; 
 
 export function OrderDetailsGrid({ order }) {
+
   return (
     <div className="order-details-grid">
 
       {order.products.map((orderProduct) => {
+
+        const isDelivered = dayjs().valueOf() > orderProduct.estimatedDeliveryTimeMs ? true : false;
+
         return (
           <Fragment key={orderProduct.product.id}>
             <div className="product-image-container">
@@ -19,7 +23,8 @@ export function OrderDetailsGrid({ order }) {
                 {orderProduct.product.name}
               </div>
               <div className="product-delivery-date">
-                Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM D')}
+                {isDelivered ? 'Delivered on: ' : 'Arriving on: '}
+                {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM D')}
               </div>
               <div className="product-quantity">
                 Quantity: {orderProduct.quantity}
